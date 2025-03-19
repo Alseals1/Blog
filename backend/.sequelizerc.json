@@ -1,0 +1,6 @@
+{
+  "config": "./backend/database/config/config.js",
+  "models-path": "./backend/models",
+  "seeders-path": "./backend/seeders",
+  "migrations-path": "./backend/migrations"
+}
