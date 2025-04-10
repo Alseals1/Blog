@@ -6,7 +6,16 @@ const db = require("./database/models");
 const app = express();
 const PORT = process.env.PORT || 3000;
 app.use(cors());
+
 app.use(express.json());
+
+app.use(
+  cors({
+    origin: "*", // or '*' to allow all origins (not recommended for production)
+    methods: ["GET", "POST", "PUT", "DELETE"], // allowed HTTP methods
+    credentials: true, // if you need to include cookies with requests
+  })
+);
 
 //// Import and use routes
 app.use("/api/posts", require("./routes/postRoutes"));

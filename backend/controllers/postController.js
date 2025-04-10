@@ -13,7 +13,7 @@ exports.createPost = async (req, res) => {
   try {
     const { title, content } = req.body;
     const newPost = await Post.create({ title, content });
-    res.status(201).json(mewPost);
+    res.status(201).json(newPost);
   } catch (error) {
     res.status(500).json({ error: "Failed to create post" });
   }
