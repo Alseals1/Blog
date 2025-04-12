@@ -7,12 +7,21 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const baseURL = import.meta.env.VITE_BASE_URL;
+    const response = await fetch(`${baseURL}/api/users/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    });
+
     // Dummy login check (you can replace this with a real API call)
-    if (email === "test@123.com" && password === "123456") {
-      toast("Welcome Back, Username");
+    if (response.ok) {
+      toast(`Welcome Back !!`);
       // Redirect to home on successful login
       navigate("/home");
     } else {

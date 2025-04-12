@@ -6,7 +6,7 @@ export default function Navbar() {
     <>
       <nav className="bg-white shadow p-4">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <Link to="/" className="text-xl font-bold text-gray-800">
+          <Link to="/home" className="text-xl font-bold text-gray-800">
             BlogDemo
           </Link>
           <div className="space-x-5.5">
@@ -17,7 +17,7 @@ export default function Navbar() {
               Home
             </Link>
             <Link
-              to="/login"
+              to="/"
               className="text-blue-600 hover:text-blue-800 font-medium transition"
             >
               Login
