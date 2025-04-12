@@ -1,7 +1,18 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 export default function Navbar() {
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleSignOut = () => {
+    logout();
+    navigate("/");
+  };
+
+  if (!user) return null; // Don't show navbar if not logged in
+  console.log("Navbar user:", user);
   return (
     <>
       <nav className="bg-white shadow p-4">
@@ -16,12 +27,12 @@ export default function Navbar() {
             >
               Home
             </Link>
-            <Link
-              to="/"
-              className="text-blue-600 hover:text-blue-800 font-medium transition"
+            <button
+              onClick={handleSignOut}
+              className="text-red-600 hover:text-red-800 font-medium transition"
             >
-              Login
-            </Link>
+              Sign Out
+            </button>
           </div>
         </div>
       </nav>

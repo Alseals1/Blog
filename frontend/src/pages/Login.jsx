@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
+import { useAuth } from "../context/AuthContext";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,7 +23,9 @@ export default function Login() {
 
     // Dummy login check (you can replace this with a real API call)
     if (response.ok) {
-      toast(`Welcome Back !!`);
+      const data = await response.json();
+      login(data.user.name);
+      toast(`Welcome Back ${data.user.name}!!`);
       // Redirect to home on successful login
       navigate("/home");
     } else {

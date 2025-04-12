@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
+import { AuthProvider } from "./context/AuthContext";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Navbar from "./components/Navbar";
@@ -10,14 +11,16 @@ function App() {
   return (
     <>
       <Router>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/post/:id" element={<PostDetails />} />
-          <Route path="/create" element={<Create />} />
-        </Routes>
-        <Toaster />
+        <AuthProvider>
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<Login />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/post/:id" element={<PostDetails />} />
+            <Route path="/create" element={<Create />} />
+          </Routes>
+          <Toaster />
+        </AuthProvider>
       </Router>
     </>
   );
