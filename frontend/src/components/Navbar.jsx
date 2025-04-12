@@ -12,7 +12,6 @@ export default function Navbar() {
   };
 
   if (!user) return null; // Don't show navbar if not logged in
-  console.log("Navbar user:", user);
   return (
     <>
       <nav className="bg-white shadow p-4">
