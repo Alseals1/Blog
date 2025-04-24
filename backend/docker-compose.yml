@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  backend:
+    build: .
+    ports:
+      - "5050:5000"
+    environment:
+      - DB_HOST=mysql
+      - DB_USER=root
+      - DB_PASSWORD=mypassword123
+      - DB_NAME=blog
+    env_file:
+      - .env
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: mypassword123
+      MYSQL_DATABASE: blog
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+volumes:
+  mysql-data:
