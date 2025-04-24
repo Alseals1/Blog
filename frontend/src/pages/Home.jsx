@@ -48,21 +48,24 @@ function Home() {
               key={post.id}
               className="block p-6 bg-white rounded-lg shadow hover:shadow-lg transition duration-200"
             >
-              <div className="space-between">
-                <h2 className="text-2xl font-semibold text-blue-700 mb-2">
-                  {post.title}
-                </h2>
-                <p className="text-gray-600 line-clamp-2">{post.content}</p>
+              <div className="flex items-start">
+                <div>
+                  <h2 className="text-2xl font-semibold text-blue-700 mb-2">
+                    {post.title}
+                  </h2>
+                  <p className="text-gray-600 line-clamp-2">{post.content}</p>
+                </div>
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleDelete(post.id);
+                  }}
+                  className="ml-auto text-red-600 hover:text-red-800 text-xl"
+                  title="Delete Post"
+                >
+                  🗑️
+                </button>
               </div>
-              <button //Move button to the end and add a trash can image
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleDelete(post.id);
-                }}
-                className="mt-2 bg-gradient-to-bl text-red-600 hover:text-red-800 text-sm"
-              >
-                Delete
-              </button>
             </Link>
           ))}
         </div>

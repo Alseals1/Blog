@@ -58,12 +58,21 @@ export default function Login() {
           required
           className="w-full px-4 py-2 mb-6 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-        <button
-          type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
-        >
-          Login
-        </button>
+        <div className="flex gap-4">
+          <button
+            type="submit"
+            className="flex-1 bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+          >
+            Login
+          </button>
+          <button
+            type="button"
+            className="flex-1 bg-gray-600 text-white py-2 rounded hover:bg-gray-700 transition"
+            onClick={() => navigate("/register")}
+          >
+            Register
+          </button>
+        </div>
       </form>
     </div>
   );
