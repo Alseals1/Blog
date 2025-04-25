@@ -10,6 +10,10 @@ router.get("/:id", authMiddleware, userController.getUserById);
 router.put("/:id", userController.updateUser);
 router.delete("/:id", userController.deleteUser);
 
+router.get("/test", (req, res) => {
+  res.json({ message: "✅ This route works!" });
+});
+
 // Auth routes
 router.post("/register", authController.register);
 router.post("/login", authController.login);

@@ -1,10 +1,11 @@
 require("dotenv").config();
+const isDocker = process.env.IS_DOCKER === "true";
 const express = require("express");
 const cors = require("cors");
 const db = require("./database/models");
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 
 app.use(express.json());
 
@@ -35,6 +36,8 @@ app.listen(PORT, async () => {
   try {
     await db.sequelize.authenticate();
     console.log("Database connected successfully.");
+    await db.sequelize.sync({ alter: false });
+    // await require("./seed")();
   } catch (error) {
     console.error("Database connection failed:", error);
   }
