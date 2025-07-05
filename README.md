@@ -29,14 +29,12 @@ A full-featured blog application built with **Node.js**, **Express**, **MySQL**,
 **Frontend**
 
 - React
-- Axios
-- TailwindCSS (or your preferred styling)
+- TailwindCSS
 
 **Infrastructure**
 
 - Docker + Docker Compose
 - AWS S3 (for image storage)
-- Deployed via Render (backend) and Vercel (frontend)
 
 ---
 
@@ -97,7 +95,7 @@ Coming Soon:
 
 - Upload blog post images
 - Store in AWS S3 bucket
-- Retrieve and serve via secure URLs
+- Retrieve and serve via secure URLs (Maybe?)
 
 ---
 
@@ -110,26 +108,11 @@ Example endpoints:
 - `GET /api/users`
 - `POST /api/comments`
 
-Full API documentation coming soon via Swagger or Postman collection.
-
 ---
 
-## Demo & Screenshots
+## About the ME
 
-### Live Demo
-
-- Frontend: [Vercel Link](#)
-- Backend: [Render API](#)
-
-### Screenshots
-
-_(Add screenshots of your frontend and backend in action)_
-
----
-
-## About the Creator
-
-Built by **Alandis Seals** — Fullstack Developer + Cloud Engineer.  
+**Alandis Seals** — Fullstack Developer + Cloud Engineer.  
 Follow along my tech journey on [LinkedIn](https://www.linkedin.com/in/alandisseals/) | [GitHub](https://github.com/Alseals1)
 
 ---
