@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import React from "react";
+import CommentList from "../components/CommentList";
 
 function PostDetails() {
   const { id } = useParams();
@@ -27,6 +27,7 @@ function PostDetails() {
         <div className="mt-10">
           <h2 className="text-2xl font-semibold mb-4 text-gray-800">
             Comments
+            <CommentList postId={post?.id} />
           </h2>
         </div>
       </div>
