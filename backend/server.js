@@ -27,18 +27,18 @@ app.get("/", (req, res) => {
   res.send("Backend is running...");
 });
 
-console.log("Routes loaded: /api/users, /api/posts, /api/comments");
+//console.log("Routes loaded: /api/users, /api/posts, /api/comments");
 // Start Server
 app.listen(PORT, async () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 
   // Test DB Connection
-  try {
-    await db.sequelize.authenticate();
-    console.log("Database connected successfully.");
-    await db.sequelize.sync({ alter: false });
-    // await require("./seed")();
-  } catch (error) {
-    console.error("Database connection failed:", error);
-  }
+  // try {
+  //   await db.sequelize.authenticate();
+  //   console.log("Database connected successfully.");
+  //   await db.sequelize.sync({ alter: false });
+  //   // await require("./seed")();
+  // } catch (error) {
+  //   console.error("Database connection failed:", error);
+  // }
 });
