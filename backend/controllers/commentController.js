@@ -1,4 +1,4 @@
-const { Comment } = require("../database/models");
+const { Comment, User } = require("../database/models");
 
 exports.getAllComments = async (req, res) => {
   try {
@@ -23,14 +23,16 @@ exports.getCommentById = async (req, res) => {
 
 exports.createComment = async (req, res) => {
   try {
-    const { postId, userId, content } = req.body;
+    const { postId, userId, content, anonymous } = req.body;
     const newComment = await Comment.create({
       postId,
-      userId,
+      userId: anonymous ? null : userId,
       content,
+      anonymous,
     });
     res.status(201).json(newComment);
   } catch (error) {
+    console.error("COMMENT ERROR:", error);
     res.status(500).json({ error: "Failed to create comment" });
   }
 };
@@ -58,5 +60,26 @@ exports.deleteComment = async (req, res) => {
     res.json({ message: "Comment deleted successfully" });
   } catch (error) {
     res.status(500).json({ error: "Failed to delete comment" });
+  }
+};
+
+exports.getCommentsByPostId = async (req, res) => {
+  console.log("Fetching comments for postId:", req.params.postId);
+  try {
+    const comments = await Comment.findAll({
+      where: { postId: req.params.postId },
+      include: [
+        {
+          model: User,
+          attributes: ["id", "name"],
+        },
+      ],
+      order: [["createdAt", "DESC"]],
+    });
+
+    res.json(comments);
+  } catch (error) {
+    console.error("FETCH COMMENTS ERROR:", error);
+    res.status(500).json({ error: "Failed to fetch comments" });
   }
 };
