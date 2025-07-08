@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import CommentList from "../components/CommentList";
+import CommentForm from "../components/CommentForm";
 
 function PostDetails() {
   const { id } = useParams();
   const [post, setPost] = useState(null);
+  const [refresh, setRefresh] = useState(0);
+  const user = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
     const baseURL = import.meta.env.VITE_BASE_URL;
@@ -13,6 +16,8 @@ function PostDetails() {
       .then((data) => setPost(data))
       .catch((err) => console.error("Error fetching post:", err));
   }, [id]);
+
+  console.log("Post details:", post);
 
   if (!post) return <div className="text-center mt-10">Loading...</div>;
 
@@ -25,6 +30,11 @@ function PostDetails() {
         </p>
         <div className="text-gray-700 leading-relaxed">{post.content}</div>
         <div className="mt-10">
+          <CommentForm
+            postId={post.id}
+            userId={user?.id || null} // or null if unauthenticated
+            onCommentAdded={() => setRefresh((r) => r + 1)}
+          />
           <h2 className="text-2xl font-semibold mb-4 text-gray-800">
             Comments
             <CommentList postId={post?.id} />
