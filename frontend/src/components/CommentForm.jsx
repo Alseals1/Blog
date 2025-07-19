@@ -20,7 +20,8 @@ const CommentForm = ({ postId, userId, onCommentAdded }) => {
         userId: !anonymous ? userId : null,
         anonymous,
       });
-      const res = await fetch("http://localhost:5001/api/comments", {
+      const baseURL = import.meta.env.VITE_BASE_URL;
+      const res = await fetch(`${baseURL}/api/comments`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

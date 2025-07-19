@@ -5,7 +5,7 @@ const cors = require("cors");
 const db = require("./database/models");
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5050;
 
 app.use(express.json());
 
