@@ -1,6 +1,6 @@
-# 📝 Fullstack Blog App (Node.js + MySQL + AWS S3)
+# 📝 Fullstack Blog App (React + Node.js + MySQL)
 
-A full-featured blog application built with **Node.js**, **Express**, **MySQL**, and a **React frontend**, designed for showcasing fullstack and cloud engineering skills. This project demonstrates RESTful APIs, relational data modeling, and AWS S3 integration for media storage.
+A full-featured blog application built with **Node.js**, **Express**, **MySQL**, and a **React frontend**, designed for showcasing fullstack and cloud engineering skills. This project demonstrates RESTful APIs, and relational data modeling.
 
 ---
 
@@ -9,7 +9,6 @@ A full-featured blog application built with **Node.js**, **Express**, **MySQL**,
 - User authentication and authorization
 - Create, read, update, delete (CRUD) blog posts and comments
 - Search and filter posts
-- Image upload support via AWS S3
 - Sequelize ORM + MySQL database (via Docker)
 - Built with modern tools and clean architecture
 - Fully Dockerized backend and database
@@ -23,7 +22,6 @@ A full-featured blog application built with **Node.js**, **Express**, **MySQL**,
 - Node.js + Express
 - MySQL (Docker)
 - Sequelize ORM
-- AWS S3 SDK (for media uploads)
 - JWT for authentication
 
 **Frontend**
@@ -34,7 +32,6 @@ A full-featured blog application built with **Node.js**, **Express**, **MySQL**,
 **Infrastructure**
 
 - Docker + Docker Compose
-- AWS S3 (for image storage)
 
 ---
 
@@ -124,6 +121,5 @@ This project demonstrates:
 - Fullstack RESTful development
 - SQL data modeling and joins
 - Dockerized microservices
-- Cloud integration via AWS S3
 
 Contact me directly for walkthroughs or collaboration.
