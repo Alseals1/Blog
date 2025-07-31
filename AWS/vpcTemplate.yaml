@@ -114,6 +114,33 @@ Resources:
       Tags:
         - Key: Name
           Value: BlogEC2Instance
+  PrivateRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPCBlog
+      Tags:
+        - Key: Name
+          Value: RouteTablePrivate
+  PrivateGatewayToSubnet1:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PrivateSubnet1
+      RouteTableId: !Ref PrivateRouteTable
+  PrivateGatewayToSubnet2:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PrivateSubnet2
+      RouteTableId: !Ref PrivateRouteTable
+
+  BlogImageS3Bucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Retain
+    Properties:
+      BucketName: !Sub blog-images-bucket-${AWS::AccountId}-${AWS::Region}
+      AccessControl: Private
+      Tags:
+        - Key: Name
+          Value: BlogImagesBucket
 
 Outputs:
   VpcId:
