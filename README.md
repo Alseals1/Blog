@@ -1,4 +1,4 @@
-# 📝 Fullstack Blog App (React + Node.js + MySQL)
+# 📝 Fullstack Blog App (React + Node.js + MySQL + AWS)
 
 A full-featured blog application built with **Node.js**, **Express**, **MySQL**, and a **React frontend**, designed for showcasing fullstack and cloud engineering skills. This project demonstrates RESTful APIs, and relational data modeling.
 
