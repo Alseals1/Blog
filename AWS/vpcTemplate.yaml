@@ -86,6 +86,62 @@ Resources:
       RouteTableId: !Ref RouteTablePublic
       DestinationCidrBlock: 0.0.0.0/0
       GatewayId: !Ref InternetGateway
+  SecurityGroupBlog:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Security group for Blog EC2 instances
+      VpcId: !Ref VPCBlog
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 5000
+          ToPort: 5000
+          CidrIp: 0.0.0.0/0
+      Tags:
+        - Key: Name
+          Value: Blog-SG
+  BlogEC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t2.micro
+      ImageId: ami-0c101f26f147fa7fd
+      SubnetId: !Ref PublicSubnet1
+      SecurityGroupIds:
+        - !Ref SecurityGroupBlog
+      Tags:
+        - Key: Name
+          Value: BlogEC2Instance
+  PrivateRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPCBlog
+      Tags:
+        - Key: Name
+          Value: RouteTablePrivate
+  PrivateGatewayToSubnet1:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PrivateSubnet1
+      RouteTableId: !Ref PrivateRouteTable
+  PrivateGatewayToSubnet2:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PrivateSubnet2
+      RouteTableId: !Ref PrivateRouteTable
+
+  BlogImageS3Bucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Retain
+    Properties:
+      BucketName: !Sub blog-images-bucket-${AWS::AccountId}-${AWS::Region}
+      AccessControl: Private
+      Tags:
+        - Key: Name
+          Value: BlogImagesBucket
+
 Outputs:
   VpcId:
     Description: The ID of the created VPC
