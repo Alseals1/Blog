@@ -10,7 +10,6 @@ Resources:
       Tags:
         - Key: Name
           Value: VPC-Blog
-
   PublicSubnet1:
     Type: AWS::EC2::Subnet
     Properties:
@@ -21,18 +20,6 @@ Resources:
       Tags:
         - Key: Name
           Value: PublicSubnet1
-
-  PublicSubnet2:
-    Type: AWS::EC2::Subnet
-    Properties:
-      VpcId: !Ref VPCBlog
-      CidrBlock: 10.0.2.0/24
-      AvailabilityZone: us-east-1b
-      MapPublicIpOnLaunch: true
-      Tags:
-        - Key: Name
-          Value: PublicSubnet2
-
   PrivateSubnet1:
     Type: AWS::EC2::Subnet
     Properties:
@@ -42,16 +29,6 @@ Resources:
       Tags:
         - Key: Name
           Value: PrivateSubnet1
-
-  PrivateSubnet2:
-    Type: AWS::EC2::Subnet
-    Properties:
-      VpcId: !Ref VPCBlog
-      CidrBlock: 10.0.4.0/24
-      AvailabilityZone: us-east-1b
-      Tags:
-        - Key: Name
-          Value: PrivateSubnet2
   InternetGateway:
     Type: AWS::EC2::InternetGateway
     Properties:
@@ -74,11 +51,6 @@ Resources:
     Type: AWS::EC2::SubnetRouteTableAssociation
     Properties:
       SubnetId: !Ref PublicSubnet1
-      RouteTableId: !Ref RouteTablePublic
-  GatewayToPublicSubnet2:
-    Type: AWS::EC2::SubnetRouteTableAssociation
-    Properties:
-      SubnetId: !Ref PublicSubnet2
       RouteTableId: !Ref RouteTablePublic
   RoutePublic:
     Type: AWS::EC2::Route
@@ -103,17 +75,41 @@ Resources:
       Tags:
         - Key: Name
           Value: Blog-SG
+
+  BastionSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Security group for Bastion host
+      VpcId: !Ref VPCBlog
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
   BlogEC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t2.micro
+      ImageId: ami-0c101f26f147fa7fd
+      SubnetId: !Ref PrivateSubnet1
+      SecurityGroupIds:
+        - !Ref SecurityGroupBlog
+      IamInstanceProfile: !Ref BlogEC2InstanceProfile
+      Tags:
+        - Key: Name
+          Value: BlogEC2Instance
+  BastionHostInstance:
     Type: AWS::EC2::Instance
     Properties:
       InstanceType: t2.micro
       ImageId: ami-0c101f26f147fa7fd
       SubnetId: !Ref PublicSubnet1
       SecurityGroupIds:
-        - !Ref SecurityGroupBlog
+        - !Ref BastionSecurityGroup
+      KeyName: BlogKeyPair
       Tags:
         - Key: Name
-          Value: BlogEC2Instance
+          Value: BastionHost
   PrivateRouteTable:
     Type: AWS::EC2::RouteTable
     Properties:
@@ -126,11 +122,6 @@ Resources:
     Properties:
       SubnetId: !Ref PrivateSubnet1
       RouteTableId: !Ref PrivateRouteTable
-  PrivateGatewayToSubnet2:
-    Type: AWS::EC2::SubnetRouteTableAssociation
-    Properties:
-      SubnetId: !Ref PrivateSubnet2
-      RouteTableId: !Ref PrivateRouteTable
 
   BlogImageS3Bucket:
     Type: AWS::S3::Bucket
@@ -141,10 +132,47 @@ Resources:
       Tags:
         - Key: Name
           Value: BlogImagesBucket
+  BlogEC2Role:
+    "Type": "AWS::IAM::Role"
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ec2.amazonaws.com
+            Action: sts:AssumeRole
+      Path: /
+      Tags:
+        - Key: Name
+          Value: BlogEC2Role
 
+  BlogS3AccessPoicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: BlogS3AccessPolicy
+      Roles:
+        - !Ref BlogEC2Role
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Action:
+              - s3:GetObject
+              - s3:PutObject
+            Resource: !Sub "arn:aws:s3:::blog-images-bucket-${AWS::AccountId}-${AWS::Region}/*"
+  BlogEC2InstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Roles:
+        - !Ref BlogEC2Role
 Outputs:
   VpcId:
     Description: The ID of the created VPC
     Value: !Ref VPCBlog
     Export:
       Name: VPC-Blog-VpcId
+# Parameters:
+#   MyIP:
+#     Type: String
+#     Description: Enter your IP address with /32
